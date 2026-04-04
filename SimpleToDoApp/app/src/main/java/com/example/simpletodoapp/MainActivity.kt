@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpletodoapp.components.TodoItemCard
 import com.example.simpletodoapp.components.TodoListScreen
 import com.example.simpletodoapp.model.TodoUiModel
@@ -47,22 +48,16 @@ class MainActivity : ComponentActivity() {
         // ここから先は Compose でUIを作る、という意味
         setContent {
             // アプリの色や見た目のルールを適用しています
-            var todos by remember { mutableStateOf(sampleTodoItems) }
+
+            val todoListViewModel: TodoListViewModel = viewModel()
             SimpleTodoAppTheme {
                 // 一覧画面を表示
                 TodoListScreen(
-                    todoItems = todos,
+                    todoItems = todoListViewModel.todoItems,
                     onAddClick = {},
                     onTodoClick = {},
-                    onCheckedChange = { targetTodo, isChecked ->
-                        todos = todos.map { todo ->
-                            // 押されたTodoと同じ id のものだけ探す
-                            if (todo.id == targetTodo.id) {
-                                todo.copy(isDone = isChecked)
-                            } else {
-                                todo
-                            }
-                        }
+                    onCheckedChange = {targetTodo, isChecked ->
+                        todoListViewModel.onCheckedChange(targetTodo, isChecked)
                     }
                 )
             }
