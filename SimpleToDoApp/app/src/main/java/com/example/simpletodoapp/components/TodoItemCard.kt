@@ -21,11 +21,15 @@ import com.example.simpletodoapp.model.TodoUiModel
  * Todo1件を表示するためのUI関数
  */
 @Composable
-fun TodoItemCard(todoItem: TodoUiModel) {
+fun TodoItemCard(
+    todoItem: TodoUiModel,
+    onTodoClick: (TodoUiModel) -> Unit,
+    onCheckedChange: (Boolean) -> Unit,
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {}
+            .clickable { onTodoClick(todoItem) }
     ) {
         // カードの中身
         Row(
@@ -40,7 +44,7 @@ fun TodoItemCard(todoItem: TodoUiModel) {
             // 完了状態をチェックボックスで表示しています
             Checkbox(
                 checked = todoItem.isDone,
-                onCheckedChange = {}
+                onCheckedChange = onCheckedChange
             )
 
             Column(

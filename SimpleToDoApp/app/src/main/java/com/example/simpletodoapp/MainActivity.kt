@@ -23,6 +23,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -43,9 +47,24 @@ class MainActivity : ComponentActivity() {
         // ここから先は Compose でUIを作る、という意味
         setContent {
             // アプリの色や見た目のルールを適用しています
+            var todos by remember { mutableStateOf(sampleTodoItems) }
             SimpleTodoAppTheme {
                 // 一覧画面を表示
-                TodoListScreen()
+                TodoListScreen(
+                    todoItems = todos,
+                    onAddClick = {},
+                    onTodoClick = {},
+                    onCheckedChange = { targetTodo, isChecked ->
+                        todos = todos.map { todo ->
+                            // 押されたTodoと同じ id のものだけ探す
+                            if (todo.id == targetTodo.id) {
+                                todo.copy(isDone = isChecked)
+                            } else {
+                                todo
+                            }
+                        }
+                    }
+                )
             }
         }
     }
@@ -56,6 +75,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TodoListScreenPreview() {
     SimpleTodoAppTheme {
-        TodoListScreen()
+        TodoListScreen(
+            todoItems = sampleTodoItems,
+            onAddClick = {},
+            onTodoClick = {},
+            onCheckedChange = { _, _ -> }
+        )
     }
 }

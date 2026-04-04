@@ -21,7 +21,10 @@ import com.example.simpletodoapp.model.sampleTodoItems
 @Composable
 fun TodoListScreen(
     // 表示するtodoリストを受け取ります
-    todoItems: List<TodoUiModel> = sampleTodoItems,
+    todoItems: List<TodoUiModel>,
+    onAddClick: () -> Unit,
+    onTodoClick: (TodoUiModel) -> Unit,
+    onCheckedChange: (TodoUiModel, Boolean) -> Unit,
 ) {
     Scaffold(
         // 画面全体のレイアウトの土台
@@ -38,7 +41,7 @@ fun TodoListScreen(
         // 右下に浮く丸いボタン
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {}
+                onClick = onAddClick
             ) {
                 Text(text = "+")
             }
@@ -55,7 +58,13 @@ fun TodoListScreen(
         ) {
             // todoItems の数だけ一覧を作ります。1件ずつ todoItem として取り出しています
             items(todoItems) { todoItem ->
-                TodoItemCard(todoItem = todoItem)
+                TodoItemCard(
+                    todoItem = todoItem,
+                    onTodoClick = onTodoClick,
+                    onCheckedChange = { isChecked ->
+                        onCheckedChange(todoItem, isChecked)
+                    }
+                )
             }
         }
     }
