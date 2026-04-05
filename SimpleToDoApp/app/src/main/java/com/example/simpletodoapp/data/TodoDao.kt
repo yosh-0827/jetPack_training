@@ -8,7 +8,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 /**
- * DBへの操作を書く場所
+ * DB(Room)への操作を書く場所
  * Data Access Object の略
  * すごく簡単に言うとSQL分を書くところ
  *
@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao // Daoであることを示す
 interface TodoDao {
 
+    // Flow: 値が変わるたびに流れてくるストリーム
     @Query("SELECT * FROM todos")
     fun getAll(): Flow<List<TodoEntity>>
 

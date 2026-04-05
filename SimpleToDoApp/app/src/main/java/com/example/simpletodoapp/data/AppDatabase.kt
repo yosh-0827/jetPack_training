@@ -9,7 +9,8 @@ import androidx.room.RoomDatabase
  * */
 @Database(
     entities = [TodoEntity::class],  // このDBでは TodoEntity を扱います
-    version = 1  // DBのバージョン
+    version = 1,  // DBのバージョン
+    exportSchema = false  // 学習用なので schema 出力はひとまず無効化
 )
 /**
  * なぜ abstract なのか

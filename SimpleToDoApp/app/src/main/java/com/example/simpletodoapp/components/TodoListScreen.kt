@@ -17,28 +17,36 @@ import androidx.compose.ui.unit.dp
 import com.example.simpletodoapp.model.TodoUiModel
 import com.example.simpletodoapp.model.sampleTodoItems
 
-@OptIn(ExperimentalMaterial3Api::class)  // TopAppBar が experimental 扱いなので、「今回は使います」と明示しています
+/**
+ * Todo 一覧画面。
+ *
+ * この画面自身は状態を持たず、表示に必要な Todo 一覧と
+ * ボタン押下時のイベント関数を外から受け取る。
+ *
+ * そのため、
+ * - 何を表示するか: todoItems
+ * - + を押したら何をするか: onAddClick
+ * - カードを押したら何をするか: onTodoClick
+ * - チェック変更時に何をするか: onCheckedChange
+ * を親側(MainActivity / AppNavHost / ViewModel)が決められる。
+ */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoListScreen(
-    // 表示するtodoリストを受け取ります
     todoItems: List<TodoUiModel>,
     onAddClick: () -> Unit,
     onTodoClick: (TodoUiModel) -> Unit,
     onCheckedChange: (TodoUiModel, Boolean) -> Unit,
 ) {
     Scaffold(
-        // 画面全体のレイアウトの土台
         modifier = Modifier.fillMaxSize(),
-        // 画面上のバーを定義
         topBar = {
-            // Material Design の上部バー
             TopAppBar(
                 title = {
                     Text(text = "Todo一覧")
                 }
             )
         },
-        // 右下に浮く丸いボタン
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onAddClick
@@ -50,18 +58,17 @@ fun TodoListScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),  // topBar などと重ならないように余白情報を受け取っています
-            // 一覧全体の外側に16dpの余白を付けています
+                .padding(innerPadding),
             contentPadding = PaddingValues(16.dp),
-            // 各Todoカードの間を12dp空けています
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // todoItems の数だけ一覧を作ります。1件ずつ todoItem として取り出しています
             items(todoItems) { todoItem ->
                 TodoItemCard(
                     todoItem = todoItem,
                     onTodoClick = onTodoClick,
                     onCheckedChange = { isChecked ->
+                        // Card 側からは Boolean だけ返ってくるので、
+                        // ここで「どの Todo が変わったか」を付け足して親へ返す。
                         onCheckedChange(todoItem, isChecked)
                     }
                 )
