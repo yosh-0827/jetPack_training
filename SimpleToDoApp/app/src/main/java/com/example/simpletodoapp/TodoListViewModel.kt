@@ -24,7 +24,7 @@ import javax.inject.Inject
  * データ更新の責務は ViewModel 側に寄せている。
  */
 @HiltViewModel
-class TodoListViewModel @Inject constructor(
+class TodoListViewModel @Inject constructor(  // コンストラクタ引数は Hilt から入れてもらいます
     private val repository: TodoRepository,
 ) : ViewModel() {
     var todoItems by mutableStateOf<List<TodoUiModel>>(emptyList())

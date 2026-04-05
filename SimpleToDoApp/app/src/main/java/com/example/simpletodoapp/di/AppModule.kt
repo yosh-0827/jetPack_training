@@ -45,6 +45,7 @@ object AppModule {
 
     /**
      * Database から TodoDao を取り出して提供する。
+     * AppDatabase から todoDao() を取り出して使ってくださいのときに使う
      */
     @Provides
     @Singleton
