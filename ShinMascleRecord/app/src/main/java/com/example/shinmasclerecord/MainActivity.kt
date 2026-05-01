@@ -22,11 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ShinMascleRecordTheme {
-                HomeScreen(
-                    records = DummyWorkoutRecords.homeRecords,
-                    onRecordClick = {},
-                    onAddClick = {},
-                )
+                AppNavHost()
             }
         }
     }
