@@ -19,11 +19,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.shinmasclerecord.data.WorkoutRecordEntity
 
+/**
+ * 新規登録画面のあれこれ
+ * */
 @OptIn(ExperimentalMaterial3Api::class)  // TopAppBarを使うために必要
 @Composable
 fun RecordEditScreen(
     modifier: Modifier = Modifier,
+    onSaveClick: (WorkoutRecordEntity) -> Unit, // 「保存ボタンが押されたら、作った記録を外へ渡す」というラムダ関数
+
 ) {
     // 入力フォールドのstate
     // it: 入力が変わったら、その新しい文字を exerciseName等の変数 に入れる
@@ -94,7 +100,18 @@ fun RecordEditScreen(
             )
 
             Button(
-                onClick = {},
+                // ボタンを押した時の挙動
+                onClick = {
+                    val record = WorkoutRecordEntity(
+                        date = date,
+                        exerciseName = exerciseName,
+                        weight = weight.toFloatOrNull() ?: 0f,  // 0fはフロート型の0として扱うという意味
+                        reps = reps.toIntOrNull() ?: 0,
+                        sets = sets.toIntOrNull() ?: 0,
+                        memo = memo,
+                    )
+                    onSaveClick(record)
+                },
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(text = "保存")
