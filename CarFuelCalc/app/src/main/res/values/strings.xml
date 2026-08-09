@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">燃費計算</string>
+    <string name="screen_title">燃費計算</string>
+    <string name="screen_description">走行距離を給油量で割り、満タン法で燃費を計算します。</string>
+    <string name="distance_label">走行距離</string>
+    <string name="fuel_label">給油量</string>
+    <string name="distance_unit">km</string>
+    <string name="fuel_unit">L</string>
+    <string name="calculate">計算する</string>
+    <string name="clear">クリア</string>
+    <string name="result_label">計算結果</string>
+    <string name="result_placeholder">数値を入力して「計算する」を押してください</string>
+    <string name="input_error_empty">入力してください</string>
+    <string name="input_error_invalid">正しい数値を入力してください</string>
+    <string name="input_error_not_positive">0より大きい数値を入力してください</string>
+    <string name="calculation_error">計算できませんでした。入力値を見直してください。</string>
+</resources>
